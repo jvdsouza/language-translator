@@ -27,7 +27,7 @@ translator = Translator()
 def tryFileIO(func):
     def tryBlock(*args, **kwargs):
         try:
-            func(*args, **kwargs)
+            return func(*args, **kwargs)
         except FileNotFoundError as err:
             print('file does not exist')
             raise err
@@ -39,13 +39,13 @@ def tryFileIO(func):
 
 @tryFileIO
 def writeTranslationToFile(translation, textFilePath):
-    with open(textFilePath, mode='w') as output_file:
+    with open(textFilePath, mode='w', encoding='utf-8') as output_file:
         output_file.writelines(translation)
 
 @tryFileIO
 def translateInputFromFile(textFilePath):
-    with open(textFilePath, mode='r') as input_file:
+    with open(textFilePath, mode='r', encoding='utf-8') as input_file:
         translation = [translator.translate(line.strip()).text for line in input_file.readlines()]
-        writeTranslationToFile(translation, './output.txt')
+        return translation
 
-translateInputFromFile('./input.txt')
+writeTranslationToFile(translateInputFromFile('./input.txt'), './output.txt')
