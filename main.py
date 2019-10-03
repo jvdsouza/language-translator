@@ -25,9 +25,9 @@ translator = Translator()
 #     raise err
 
 def tryFileIO(func):
-    def tryBlock(*args):
+    def tryBlock(*args, **kwargs):
         try:
-            func(*args)
+            func(*args, **kwargs)
         except FileNotFoundError as err:
             print('file does not exist')
             raise err
